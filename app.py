@@ -17,6 +17,7 @@ if st.button("Diagnose"):
     else:
         with st.spinner("Analyzing..."):
             try:
+                #st.write("Sending this to Lambda:", {"query": user_input})
                 response = requests.post(LAMBDA_API_URL, json={"query": user_input})
                 st.code(response.text, language='json')
 
@@ -24,7 +25,7 @@ if st.button("Diagnose"):
                 if response.status_code == 200:
                     try:
                         
-                        st.write("DEBUG report:", response.json())
+                        #st.write("DEBUG report:", response.json())
                         report = response.json()
 
                         st.success("Diagnosis Complete!")
