@@ -19,7 +19,7 @@ if st.button("Diagnose"):
             try:
                 #st.write("Sending this to Lambda:", {"query": user_input})
                 response = requests.post(LAMBDA_API_URL, json={"query": user_input})
-                st.code(response.text, language='json')
+                #st.code(response.text, language='json')
 
                 # ✅ Parse the outer response first
                 if response.status_code == 200:
