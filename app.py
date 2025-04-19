@@ -9,11 +9,49 @@ st.set_page_config(page_title="AutoFix Assistant", layout="centered")
 st.title("🔧 AutoFix Assistant")
 st.subheader("Diagnose and Fix Your Vehicle Problems")
 
-user_input = st.text_area("Describe your issue:", placeholder="e.g., My car is making noise while driving")
+
+
+# 🎙️ AUDIO and text INPUT SUPPORT start
+
+st.markdown("**🎤 Optional: Describe your issue using your voice**")
+
+audio_file = st.file_uploader("Upload a short voice note (MP3/WAV/M4A)", type=["mp3", "wav", "m4a"])
+
+
+
+user_input = st.text_area("Or type your issue:", placeholder="e.g., My car is making noise while driving")
+
+
+
+# 🧠 Convert audio to text using Whisper if provided
+
+if audio_file:
+
+    st.info("Transcribing your audio with Whisper...")
+
+    try:
+
+        transcript = openai.Audio.transcribe("whisper-1", audio_file)
+
+        user_input = transcript["text"]
+
+        st.success(f"Transcribed: {user_input}")
+
+    except Exception as e:
+
+        st.error(f"Audio transcription failed: {e}")
+
+        user_input = ""
+
+
+# 🎙️ AUDIO and text INPUT SUPPORT end 
+
+#Below code commented as trying both AUDIO and text INPUT . Below code was only for text support
+# user_input = st.text_area("Describe your issue:", placeholder="e.g., My car is making noise while driving")
 
 if st.button("Diagnose"):
     if not user_input.strip():
-        st.warning("Please enter a description of your issue.")
+        st.warning("Please enter or speak a description of your issue.")
     else:
         with st.spinner("Analyzing..."):
             try:
